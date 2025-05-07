@@ -1,0 +1,105 @@
+/* overall container fills viewport */
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .App__header {
+    padding: 1rem;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .App__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Editor takes remaining space */
+  .IDE {
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  /* Keyboard fixed height at bottom */
+  .pythonKeyboard__container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0px;                    /* ← lift it up 40px from the very bottom */
+    height: 300px;
+    border-top: 1px solid #ccc;
+    background: white;               /* or whatever your background is */
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;                   /* high enough to sit above the IDE */
+    /* iOS “home-indicator” safe area: */
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  
+  .pythonKeyboard__input {
+    flex-shrink: 0;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    box-sizing: border-box;
+  }
+  
+  .pythonKeyboard__suggestions {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .pythonKeyboard__suggestions button {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fafafa;
+    cursor: pointer;
+  }
+  
+
+  /* Editor container: clip anything that overflows */
+.IDE {
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  /* Monaco’s internal scrollable area */
+  .IDE .monaco-scrollable-element {
+    overflow: hidden !important;
+  }
+  
+  /* Keyboard wrapper: fixed height, no overflow */
+  .pythonKeyboard__container {
+    height: 300px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;          /* kill any scrollbar */
+    touch-action: none;        /* prevent touch-scroll on mobile */
+    }
+  
+  /* Suggestions row: no horizontal scroll */
+  .pythonKeyboard__suggestions {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    overflow-x: hidden;        /* no sliding left/right */
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  /* Ensure the simple-keyboard itself won’t scroll */
+  .pythonKeyboard__container .simple-keyboard {
+    overflow: hidden !important;
+  }
+  
