@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useRef } from "react";
 import Keyboard, { KeyboardReactInterface } from "react-simple-keyboard";
 import "simple-keyboard/build/css/index.css";
+import styles from "./Keyboard_gustav.module.css";
 
 const keywords: string[] = [
   "False","None","True","and","as","assert","async","await","break",
@@ -15,7 +16,7 @@ interface PythonKeyboardProps {
     onChange: (val: string) => void;
   }
   
-  export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps) {
+  export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboardProps) {
     const keyboardRef = useRef<KeyboardReactInterface>(null);
   
     const suggestions = useMemo(() => {
@@ -37,7 +38,18 @@ interface PythonKeyboardProps {
     };
   
     const onKeyPress = (button: string) => {
-      if (button === "{shift}" || button === "{lock}") return;
+      if (button === "{shift}" || button === "{lock}") {
+        const currentLayout = keyboardRef.current?.options.layoutName;
+        const newLayout = currentLayout === "default" ? "shift" : "default";
+        keyboardRef.current?.setOptions({ layoutName: newLayout });
+        return;
+      }
+      if (button === "{extra}" || button === "{default}") {
+        const currentLayout = keyboardRef.current?.options.layoutName;
+        const newLayout = currentLayout === "default" ? "extra" : "default";
+        keyboardRef.current?.setOptions({ layoutName: newLayout });
+        return;
+      }
       if (suggestions.includes(button)) handleSuggestionClick(button);
       if (button === "{enter}") {
         const newVal = value + "\n";
@@ -68,28 +80,45 @@ interface PythonKeyboardProps {
           layoutName="default"
           layout={{
             default: [
-                "! @ # $ % ^ & * ( ) _",
-                "q w e r t y u i o p å",
-                "a s d f g h j k l æ ø",
-                "{shift} z x c v b n m , . {bksp}",
-                "{space} {enter}"          // ← add enter here
+              "q w e r t y u i o p", // ← Move Enter up here
+              "a s d f g h j k l",
+              "{shift} z x c v b n m {bksp}",
+              "{extra} {space} , . {enter}"        // ← add enter here
             ],
             shift: [
-              "1 2 3 4 5 6 7 8 9 0",
               "Q W E R T Y U I O P",
-              "A S D F G H J K L",
-              "{shift} Z X C V B N M < > {bksp}",
-              "{extra} {space}"
+              "A S D F G H J K L",  // ← Add Enter here
+              "{shift} Z X C V B N M {bksp}",
+              "{extra} {space} , . {enter}"
             ],
+            
             extra: [
               "! @ # $ % ^ & * ( ) _",
               "- / : ; ( ) kr & @ \"",
               "[ ] \\{ \\} # % ^ * + =",
-              "{shift} _ \\ | ~ < > $ . , ? ! ' {bksp}",
-              "{default} {space}"
+              "_ \\ | ~ < > $ . , ? ! ' {bksp}",  // ← Add Enter here too
+              "{default} {space} {enter}"
             ]
           }}
-          display={{ "{bksp}": "⌫", "{shift}": "⇧", "{space}": "⎵", "{extra}": "++", "{enter}": "⏎","{tab}":"⇥"} }
+          buttonTheme={[
+            {
+              class: styles.specialKey, // Apply a custom style for special keys
+              buttons: "{bksp} {shift}"
+            },
+            {
+              class: styles.enterKey,
+              buttons: "{enter}"
+            },
+            {
+              class: styles.extraKey,
+              buttons: "{extra} {default}"
+            },
+            {
+              class: styles.punctuationKey,
+              buttons: ", ."
+            }
+          ]}
+          display={{ "{bksp}": "⌫", "{shift}": "⇧", "{space}": "⎵", "{extra}": "123", "{enter}": "⏎", "{default}": "ABC" }} // Add display text for special keys
         />
       </div>
     );

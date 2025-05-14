@@ -1,0 +1,56 @@
+.keyboard {
+  margin-top: 100px !important;
+  background-color: black !important;
+}
+
+.enterKey {
+  background-color: #4CAF50 !important;
+  font-weight: bold;
+  max-width: 50px;
+  width: 50px;
+}
+
+.punctuationKey {
+  max-width: 30px;
+  width: 30px;
+}
+
+.extraKey {
+  max-width: 40px;
+  width: 40px;
+  min-width: 40px;
+}
+
+.specialKey {
+  background-color: #4CAF50;
+  min-width: 30px;
+  font-weight: bold;
+}
+
+/* Popup container */
+.popup {
+  position: absolute;
+  top: -50px; /* Adjust based on your layout */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  gap: 5px;
+  z-index: 1000;
+}
+
+/* Popup buttons */
+.popupButton {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.popupButton:hover {
+  background-color: #ddd;
+}

@@ -1,0 +1,6 @@
+.hg-button[data-skbtn="{enter}"] {
+    background-color: #4CAF50;
+    font-weight: bold;
+    height: 600px;   /* simulate tall key */
+    min-width: 80px; /* simulate wide key */
+  }
