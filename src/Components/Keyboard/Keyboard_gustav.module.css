@@ -29,28 +29,68 @@
 
 /* Popup container */
 .popup {
-  position: absolute;
-  top: -50px; /* Adjust based on your layout */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: white;
+  /* position: absolute; */
+  /* top: -50px;
+  left: 50%; */
+  /* transform: translateX(-50%); */
+  /* background-color: white;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 5px;
   display: flex;
   gap: 5px;
-  z-index: 1000;
+  z-index: 1000; */
 }
 
 /* Popup buttons */
 .popupButton {
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0;
   border: none;
   border-radius: 3px;
   padding: 5px 10px;
-  cursor: pointer;
+  cursor: pointer; */
 }
 
 .popupButton:hover {
-  background-color: #ddd;
+  /* background-color: #ddd; */
+}
+
+.accentPopup {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 8px;
+  z-index: 1000;
+  display: flex;
+  gap: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+.accentButton {
+  padding: 8px 10px;
+  font-size: 18px;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+  
+.accentButton:hover {
+  background: #e0e0e0;
+}
+
+.accentedKey {
+  position: relative;
+}
+
+.accentedKey::after {
+  content: attr(data-accent);
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  font-size: 0.7em;
+  color: #555;
+  pointer-events: none;
 }
