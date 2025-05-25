@@ -162,6 +162,10 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
       const newVal = value + "\n";
       onChange(newVal);
       keyboardRef.current?.setInput(newVal);
+    } else if (button === "{space}") {
+      const newVal = value + " ";
+      onChange(newVal);
+      keyboardRef.current?.setInput(newVal);
     } else if (button === "{bksp}") {
       const newVal = value.slice(0, -1);
       onChange(newVal);
