@@ -16,9 +16,7 @@ const longPressMap: Record<string, string[]> = {
   ")": ["]", "}"]
 };
 
-const [popupKey, setPopupKey] = useState<string | null>(null);
-const [popupPosition, setPopupPosition] = useState<{ x: number, y: number } | null>(null);
-const longPressTimeout = useRef<number | null>(null);
+
 
 interface PythonKeyboardProps {
     value: string;
@@ -27,6 +25,10 @@ interface PythonKeyboardProps {
   
   export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardProps) {
     const keyboardRef = useRef<KeyboardReactInterface>(null);
+
+    const [popupKey, setPopupKey] = useState<string | null>(null);
+    const [popupPosition, setPopupPosition] = useState<{ x: number, y: number } | null>(null);
+    const longPressTimeout = useRef<number | null>(null);
   
     const suggestions = useMemo(() => {
       const token = value.split(/\s+/).pop()?.toLowerCase() || "";
