@@ -409,7 +409,7 @@ useEffect(() => {
 
 
   return (
-    <div className="pythonKeyboard__container">
+    <div className="pythonKeyboard__container" style={{height: "auto"}}>
       <div className="pythonKeyboard__suggestions">
         {suggestions.map(w => (
           <button key={w} type="button" onClick={() => handleSuggestionClick(w)}>

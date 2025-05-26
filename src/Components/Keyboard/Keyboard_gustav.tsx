@@ -56,7 +56,7 @@ interface PythonKeyboardProps {
   onChange: (val: string) => void;
 }
 
-export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardProps) {
+export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboardProps) {
   const keyboardRef = useRef<KeyboardReactInterface>(null);
   const [lastKeyPressed, setLastKeyPressed] = useState<string | null>(null);
   const [showAccentMenu, setShowAccentMenu] = useState(false);
@@ -395,7 +395,7 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
   }, [showAccentMenu, selectedAccent, lastKeyPressed, activeTarget]);
 
   return (
-    <div className="pythonKeyboard__container">
+    <div className="pythonKeyboard__container" style={{height: "auto"}}>
       <div className="pythonKeyboard__suggestions">
         {suggestions.map(w => (
           <button key={w} type="button" onClick={() => handleSuggestionClick(w)}>
@@ -425,8 +425,8 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
             ],
             extra: [
               "1 2 3 4 5 6 7 8 9 0",
-              "[ ] \\{ \\} # % ^ * + =",
-              "_ \\ | ~ < > $ {bksp}",
+              "[ ] { } # % ^ * + =",
+              "- _ | ~ ! ? $ {bksp}",
               "{default} {space} {enter}"
             ]
           }}

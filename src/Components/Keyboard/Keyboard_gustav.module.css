@@ -80,3 +80,6 @@
   color: #555;
   pointer-events: none;
 }
+.pythonKeyboard__container {
+  height: 0px !important;
+}
