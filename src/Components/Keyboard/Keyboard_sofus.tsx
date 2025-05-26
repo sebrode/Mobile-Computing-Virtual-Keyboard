@@ -8,7 +8,7 @@ import styles from "./Keyboard_sofus.module.css";
 const keywords: string[] = [
   "False","None","True","and","as","assert","async","await","break",
   "class","continue","def","del","elif","else","except","finally",
-  "for","from","global","if","import","in","is","lambda","nonlocal",
+  "for","from","global","if","import","in","is","lambda",
   "not","or","pass","raise","return","try","while","with","yield"
 ];
 
@@ -91,28 +91,28 @@ interface PythonKeyboardProps {
             ],
             shift: [
               "1 2 3 4 5 6 7 8 9 0",
-              "Q W E R T Y U I O P",
-              "A S D F G H J K L {enter}",  // ← Add Enter here
-              "{shift} Z X C V B N M < > {bksp}",
-              "{extra} {space}"
+              "Q W E R T Y U I O P {ghost}" ,
+              "{tab} A S D F G H J K L {enter}",  // ← Add Enter here
+              "{shift} < > Z X C V B N M ; : {bksp}",
+              "{123} {space}"
             ],
             
             extra: [
               "! @ # $ % ^ & * ( ) _",
-              "- / : ; ( ) kr & @ \"",
-              "[ ] \\{ \\} # % ^ * + =",
-              "{shift} _ \\ | ~ < > $ . , ? ! ' {enter} {bksp}",  // ← Add Enter here too
+              "- / : ; ( ) & \" {ghost}",
+              "[ ] \{ \} # % ^ * + = {enter}",
+              "{shift} _ \\ | ~ < > $ . , ? ! ' {bksp}",  // ← Add Enter here too
               "{default} {space}"
             ]
           }}
-          display={{ "{bksp}": "⌫", "{shift}": "⇧", "{space}": "⎵", "{extra}": "++", "{enter}": "⏎","{tab}":"⇥", "{123}": "123", "{ghost}":"ghost", "{ghost2}":"ghost"} }
+          display={{"{default}": "abc", "{bksp}": "⌫", "{shift}": "⇧", "{space}": "⎵", "{extra}": "++", "{enter}": "⏎","{tab}":"⇥", "{123}": "123", "{ghost}":"ghost", "{ghost2}":"ghost"} }
           buttonTheme={[  
             {
               class: styles.shiftKey, // Apply a custom style for special keys
               buttons: "{shift}"
             },
             {
-              class: styles.defaultKey, // Apply a default style for regular keys
+              class: styles.defaultKeys, // Apply a default style for regular keys
               buttons: "q w e r t y u i o p a s d f g h j k l z x c v b n m"
             },
             {
@@ -130,7 +130,16 @@ interface PythonKeyboardProps {
             {
               class: styles.ghost2Key,
               buttons: "{ghost2}"
+            },
+            {
+              class: styles.spaceKey,
+              buttons: "{space}"
+            },
+            {
+              class: styles.defaultKey,
+              buttons: "{default}"
             }
+
           ]}
         />
       </div>
