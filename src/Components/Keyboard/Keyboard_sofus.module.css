@@ -1,3 +1,4 @@
+
 .hg-button[data-skbtn="{enter}"] {
     background-color: green;
     color: green;
@@ -22,6 +23,7 @@
     font-size: 1 !important;
     max-width: 3rem !important;
   }
+
   .extraKey {
     box-shadow: none !important;
     font-size: 1 !important;
@@ -44,3 +46,13 @@
     border: none !important;
   }
 
+  /* .spaceKey {
+    box-shadow: none !important;
+    min-width: 140rem !important;
+  } */
+
+  .defaultKey {
+    box-shadow: none !important;
+    font-size: 1 !important;
+    max-width: 3rem !important;
+  }
