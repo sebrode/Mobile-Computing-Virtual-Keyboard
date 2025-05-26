@@ -1,6 +1,6 @@
 // App.tsx
-import React, { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 
 import CodeEditor from './Components/IDE/IDE';
@@ -12,6 +12,19 @@ import PythonKeyboardGustav from './Components/Keyboard/Keyboard_gustav';
 const App: React.FC = () => {
   const [code, setCode] = useState('');
   const placeholder = '// Write your Python here';
+
+  const location = useLocation();
+  // Set page title based on route
+  useEffect(() => {
+    const routeTitles = {
+      '/': 'Default Python Keyboard',
+      '/sofus': 'Sofus Keyboard',
+      '/naomi': 'Naomi Keyboard',
+      '/gustav': 'Gustav Keyboard'
+    };
+
+    document.title = routeTitles[location.pathname as keyof typeof routeTitles] || 'Python Editor';
+  }, [location.pathname]);
 
   // A small helper to render editor + one keyboard
   const EditorWith = (Keyboard: React.FC<{ value: string; onChange: (v: string) => void }>) => (
