@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import Keyboard, { KeyboardReactInterface } from "react-simple-keyboard";
 import "simple-keyboard/build/css/index.css";
-import styles from "./Keyboard_gustav.module.css";
+import styles from "./Keyboard.module.css";
 
 const keywords: string[] = [
   "False", "None", "True", "and", "as", "assert", "async", "await", "break",
@@ -20,7 +20,7 @@ interface PythonKeyboardProps {
   onChange: (val: string) => void;
 }
 
-export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboardProps) {
+export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps) {
   const keyboardRef = useRef<KeyboardReactInterface>(null);
   const [lastKeyPressed, setLastKeyPressed] = useState<string | null>(null);
   const [showAccentMenu, setShowAccentMenu] = useState(false);
@@ -34,7 +34,7 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
   const isHoldingRef = useRef<{ [key: string]: boolean }>({});
   const [activeTarget, setActiveTarget] = useState<HTMLElement | null>(null);
   const [selectedAccent, setSelectedAccent] = useState<string | null>(null);
-  const [layoutName, setLayoutName] = useState<"default" | "shift" | "extra">("default");
+  const [layoutName, setLayoutName] = useState<"default" | "shift" | "extra" | "extraExtra">("default");
   const [isShiftActive, setIsShiftActive] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
   const shiftTimeoutRef = useRef<number>(0);
@@ -119,13 +119,19 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
       }
       shiftTimeoutRef.current = now;
     } else if (button === "{extra}") {
-      if (layoutName === "default" || layoutName === "shift") {
+      if (layoutName === "default" || layoutName === "shift" || layoutName === "extraExtra") {
         setLayoutName("extra");
         setIsShiftActive(false);
         setCapsLockActive(false);
       }
-    } else if (button === "{default}") {
+    } else if (button === "{#+=}") {
       if (layoutName === "extra") {
+        setLayoutName("extraExtra");
+        setIsShiftActive(false);
+        setCapsLockActive(false);
+      }
+    } else if (button === "{default}") {
+      if (layoutName === "extra" || layoutName === "extraExtra") {
         setLayoutName("default");
         setIsShiftActive(false);
         setCapsLockActive(false);
@@ -228,7 +234,7 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
         }
       }
     }
-    if (layoutName === "shift" && !capsLockActive && !button.startsWith("{") && button !== "{extra}") {
+    if (layoutName === "shift" && !capsLockActive && !button.startsWith("{") && button !== "{extra}" && button !== "{extraExtra}") {
       const now = Date.now();
       const timeSinceLastTap = now - shiftTimeoutRef.current;
 
@@ -379,29 +385,35 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
               "q w e r t y u i o p",
               "a s d f g h j k l",
               "{shift} z x c v b n m {bksp}",
-              "{extra} {space} {enter}"
+              "{extra} {smiley} {space} {enter}"
             ],
             shift: [
               "Q W E R T Y U I O P",
               "A S D F G H J K L",
               "{shift} Z X C V B N M {bksp}",
-              "{extra} {space} {enter}"
+              "{extra} {smiley} {space} {enter}"
             ],
             extra: [
               "1 2 3 4 5 6 7 8 9 0",
+              "- / : ; ( ) $ & @ ''",
+              "{#+=} . , ? ! ' {bksp}",
+              "{default} {smiley} {space} {enter}"
+            ],
+            extraExtra: [
               "[ ] { } # % ^ * + =",
-              "- _ | ~ ! ? $ {bksp}",
-              "{default} {space} {enter}"
+              "_ \ | ~ < > € £ ¥ •",
+              "{extra} . , ? ! ' {bksp}",
+              "{default} {smiley} {space} {enter}"
             ]
           }}
           buttonTheme={[
             {
-              class: styles.specialKey,
-              buttons: '{shift}'
+              class: styles.normalKeys,
+              buttons: 'q w e r t y u i o p a s d f g h j k l z x c v b n m Q W E R T Y U I O P A S D F G H J K L Z X C V B N M 1 2 3 4 5 6 7 8 9 0 - / : ; ( ) $ & @ \'\' [ ] { } # % ^ * + = _ \\ | ~ < > € £ ¥ • . , ? ! \''
             },
             {
               class: styles.specialKey,
-              buttons: "{bksp}"
+              buttons: '{shift} {bksp} {#+=}'
             },
             {
               class: styles.enterKey,
@@ -409,11 +421,7 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
             },
             {
               class: styles.extraKey,
-              buttons: "{extra} {default}"
-            },
-            {
-              class: styles.punctuationKey,
-              buttons: ", ."
+              buttons: "{extra} {#+=} {default} {smiley}"
             },
             {
               class: styles.accentedKey,
@@ -421,11 +429,13 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
             }
           ]}
           display={{
+            "{smiley}": "😃",
+            "{#+=}": "#+=",
             "{bksp}": "⌫",
             "{shift}": "⇧",
             "{space}": "⎵",
             "{extra}": "123",
-            "{enter}": "⏎",
+            "{enter}": "return",
             "{default}": "ABC"
           }}
         />

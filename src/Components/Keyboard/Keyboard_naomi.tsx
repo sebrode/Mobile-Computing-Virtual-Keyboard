@@ -23,7 +23,8 @@ const accentMap: Record<string, string[]> = {
   d: ['d', 'def'],
   f: ['f', 'for'], 
   p: ['print','p'], 
-  w: ['w', 'while']
+  w: ['w', 'while'],
+  r: ['r', 'range', 'return'],
 };
 
 const generateAccentButtonThemes = () => {
@@ -43,7 +44,8 @@ const generateAccentButtonThemes = () => {
       "d": "accentedKey_d",
       "f": "accentedKey_f",
       "p": "accentedKey_p",
-      "w": "accentedKey_w"
+      "w": "accentedKey_w",
+      "r": "accentedKey_r"
     };
 
     // Create button themes for keys that have accents
@@ -426,25 +428,25 @@ useEffect(() => {
           layoutName={layoutName}
           layout={{
             default: [
-              "{tab} + - * / < > = {bksp}",
+              "{tab} + - * / < > = ( )",
               "q w e r t y u i o p",
               "a s d f g h j k l",
-              "{shift} z x c v b n m {enter}",
-              '{extra} # " {space} . , ( )'
+              "{shift} z x c v b n m {bksp}",
+              '{extra} # " {space} , . {enter}'
             ],
             shift: [
-              "{tab} + - * / < > = {bksp}",
+              "{tab} + - * / < > = ( )",
               "Q W E R T Y U I O P",
               "A S D F G H J K L",
-              "{shift} Z X C V B N M {enter}",
-              '{extra} # " {space} . , ( )'
+              "{shift} Z X C V B N M {bksp}",
+              '{extra} # " {space} , . {enter}'
             ],
             extra: [
-              "{tab} 1 2 3 4 5 6 7 8 9 0 {bksp}",
+              "{tab} 1 2 3 4 5 6 7 8 9 0",
               "! ? % & | ^ ~ @ $",
               "[ ] { } \\ _ : ; '",
-              "{default} if else and or not {enter}",
-              "{space}"
+              "if else and or not {bksp}",
+              "{default} {space} {enter}"
             ]
           }}
           buttonTheme={[

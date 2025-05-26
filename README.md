@@ -1,4 +1,11 @@
 # Mobile-Computing-Virtual-Keyboard
+
+## How to use
+Build and install the app: npm install
+Run the app: npm run dev
+Clean the app: npm run clean
+Full clean the app: npm run clean:full
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
