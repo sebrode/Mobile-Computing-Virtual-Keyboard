@@ -18,7 +18,11 @@ interface PythonKeyboardProps {
   }
   
   export default function PythonKeyboardSofus({ value, onChange }: PythonKeyboardProps) {
-    const keyboardRef = useRef<KeyboardReactInterface>(null);
+  const keyboardRef = useRef<KeyboardReactInterface>(null);
+  // Add a state to track the current layout
+  const [currentLayout, setCurrentLayout] = useState("default");
+  // Add state to track if shift is temporary (one character only)
+  const [isTemporaryShift, setIsTemporaryShift] = useState(false);
   
     const suggestions = useMemo(() => {
       const token = value.split(/\s+/).pop()?.toLowerCase() || "";
@@ -34,31 +38,64 @@ interface PythonKeyboardProps {
       keyboardRef.current?.setInput(newVal);
     };
   
-    const handleChange = (next: string) => {
-      onChange(next);
-    };
-  
     const onKeyPress = (button: string) => {
+      // Handle shift button
       if (button === "{shift}" || button === "{lock}") {
-        const currentLayout = keyboardRef.current?.options.layoutName;
         const newLayout = currentLayout === "default" ? "shift" : "default";
+        setCurrentLayout(newLayout);
+        setIsTemporaryShift(newLayout === "shift"); // Mark shift as temporary
         keyboardRef.current?.setOptions({ layoutName: newLayout });
         return;
       }
-      if (button === "{123}" || button === "{default}") {
-        const currentLayout = keyboardRef.current?.options.layoutName;
-        const newLayout = currentLayout === "default" ? "extra" : "default";
-        keyboardRef.current?.setOptions({ layoutName: newLayout });
+      
+      // Handle layout switch buttons
+      if (button === "{123}") {
+        setCurrentLayout("extra");
+        setIsTemporaryShift(false); // Not in shift mode
+        keyboardRef.current?.setOptions({ layoutName: "extra" });
         return;
       }
-    
-      if (suggestions.includes(button)) handleSuggestionClick(button);
-    
+      
+      if (button === "{abc}") {
+        setCurrentLayout("default");
+        setIsTemporaryShift(false); // Not in shift mode
+        keyboardRef.current?.setOptions({ layoutName: "default" });
+        return;
+      }
+
+      // Handle suggestions
+      if (suggestions.includes(button)) {
+        handleSuggestionClick(button);
+        return;
+      }
+
+      // Handle enter key
       if (button === "{enter}" || button === "{ghost}") {
         const newVal = value + "\n";
         onChange(newVal);
         keyboardRef.current?.setInput(newVal);
         return;
+      }
+
+      // If we're in temporary shift mode and pressed a regular key,
+      // return to default layout after this keypress
+      if (isTemporaryShift && !button.startsWith("{")) {
+        // Use setTimeout to ensure the current key is processed before changing layout
+        setTimeout(() => {
+          setCurrentLayout("default");
+          setIsTemporaryShift(false);
+          keyboardRef.current?.setOptions({ layoutName: "default" });
+        }, 10);
+      }
+    };
+  
+    const handleChange = (next: string) => {
+      onChange(next);
+      
+      // Only ensure layout is maintained if we're not in temporary shift mode
+      // or if we're in a non-shift layout
+      if (!isTemporaryShift || currentLayout !== "shift") {
+        keyboardRef.current?.setOptions({ layoutName: currentLayout });
       }
     };
   
@@ -80,32 +117,32 @@ interface PythonKeyboardProps {
           keyboardRef={r => (keyboardRef.current = r)}
           onChange={handleChange}
           onKeyPress={onKeyPress}
-          layoutName="default"
+          layoutName={currentLayout} // Use the tracked current layout
           layout={{
             default: [
-              "! \" # & / ( ) [ ] { } = +",
-              "q w e r t y u i o p", // ← Move Enter up here
+              "! \" # & / ( ) [ ] { } = + *",
+              "q w e r t y u i o p",
               "{tab} a s d f g h j k l",
               "{shift} < > z x c v b n m , . {bksp}",
-              "{123} {space} {enter}"        // ← add enter here
+              "{123} {space} {enter}"
             ],
             shift: [
-              "1 2 3 4 5 6 7 8 9 0",
+              "! \" # & / ( ) [ ] { } = +",
               "Q W E R T Y U I O P" ,
-              "{tab} A S D F G H J K L",  // ← Add Enter here
+              "{tab} A S D F G H J K L",
               "{shift} < > Z X C V B N M ; : {bksp}",
               "{123} {space} {enter}"
             ],
             
             extra: [
-              "! @ # $ % ^ & * ( ) _",
+              "1 2 3 4 5 6 7 8 9 0",
               "- / : ; ( ) & \" ' ` ~",
-              "[ ] \{ \} # % ^ * + =",
-              "{shift} _ \\ | ~ < > $ . , ? ! ' {bksp}",  // ← Add Enter here too
-              "{default} {space} {enter}"
+              "{tab} [ ] \{ \} # % ^ * + =",
+              "{shift} _ \\ | ~ < > $ . , ? ! ' {bksp}",
+              "{abc} {space} {enter}"  // Changed from {default} to {abc}
             ]
           }}
-          display={{"{default}": "abc", "{bksp}": "⌫", "{shift}": "⇧", "{space}": "⎵", "{extra}": "++", "{enter}": "⏎","{tab}":"⇥", "{123}": "123", "{ghost}":"ghost", "{ghost2}":"ghost"} }
+          display={{"{abc}": "abc", "{bksp}": "⌫", "{shift}": "⇧", "{space}": "⎵", "{extra}": "++", "{enter}": "⏎","{tab}":"⇥", "{123}": "123", "{ghost}":"ghost", "{ghost2}":"ghost"} }
           buttonTheme={[  
             {
               class: styles.shiftKey, // Apply a custom style for special keys
@@ -142,6 +179,10 @@ interface PythonKeyboardProps {
             {
               class: styles.defaultKey,
               buttons: "{default}"
+            },
+            {
+              class: styles.defaultKey,
+              buttons: "{abc}"  // Add the abc button to use the same styling as the default button
             }
 
 
