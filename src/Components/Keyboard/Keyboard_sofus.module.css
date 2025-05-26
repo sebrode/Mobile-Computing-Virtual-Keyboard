@@ -1,22 +1,4 @@
 
-.hg-button[data-skbtn="{enter}"] {
-    background-color: green;
-    color: green;
-    font-weight: bold;
-    height: 60px;   /* simulate tall key */
-    min-width: 20px;  /* simulate wide key */
-  }
-
-.hg-button[data-skbtn="{enter-ghost}"] {
-    background-color: green;
-    height: 60px;
-    min-width: 20px;
-    margin-left: -4px; 
-    border-left: none;
-    border-radius: 0;
-    font-size: 0;
-  }
-
 
   .shiftKey {
     box-shadow: none !important;
