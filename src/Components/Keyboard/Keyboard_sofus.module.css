@@ -56,3 +56,10 @@
     font-size: 1 !important;
     max-width: 3rem !important;
   }
+
+  .enterKey {
+    box-shadow: none !important;
+    font-size: 1 !important;
+    max-width: 10rem !important;
+  }
+  
