@@ -84,25 +84,25 @@ interface PythonKeyboardProps {
           layout={{
             default: [
               "! \" # & / ( ) [ ] { } = +",
-              "q w e r t y u i o p {ghost}", // ← Move Enter up here
-              "{tab} a s d f g h j k l {enter}",
+              "q w e r t y u i o p", // ← Move Enter up here
+              "{tab} a s d f g h j k l",
               "{shift} < > z x c v b n m , . {bksp}",
-              "{123} {space}"        // ← add enter here
+              "{123} {space} {enter}"        // ← add enter here
             ],
             shift: [
               "1 2 3 4 5 6 7 8 9 0",
-              "Q W E R T Y U I O P {ghost}" ,
-              "{tab} A S D F G H J K L {enter}",  // ← Add Enter here
+              "Q W E R T Y U I O P" ,
+              "{tab} A S D F G H J K L",  // ← Add Enter here
               "{shift} < > Z X C V B N M ; : {bksp}",
-              "{123} {space}"
+              "{123} {space} {enter}"
             ],
             
             extra: [
               "! @ # $ % ^ & * ( ) _",
-              "- / : ; ( ) & \" {ghost}",
-              "[ ] \{ \} # % ^ * + = {enter}",
+              "- / : ; ( ) & \" ' ` ~",
+              "[ ] \{ \} # % ^ * + =",
               "{shift} _ \\ | ~ < > $ . , ? ! ' {bksp}",  // ← Add Enter here too
-              "{default} {space}"
+              "{default} {space} {enter}"
             ]
           }}
           display={{"{default}": "abc", "{bksp}": "⌫", "{shift}": "⇧", "{space}": "⎵", "{extra}": "++", "{enter}": "⏎","{tab}":"⇥", "{123}": "123", "{ghost}":"ghost", "{ghost2}":"ghost"} }
@@ -124,6 +124,10 @@ interface PythonKeyboardProps {
               buttons: "{123}"
             },
             {
+              class: styles.enterKey, // Apply a custom style for suggestion keys
+              buttons: "{enter}"
+            },
+            {
               class: styles.ghostKey,
               buttons: "{ghost}"
             },
@@ -139,6 +143,8 @@ interface PythonKeyboardProps {
               class: styles.defaultKey,
               buttons: "{default}"
             }
+
+
 
           ]}
         />
