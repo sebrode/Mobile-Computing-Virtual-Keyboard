@@ -183,7 +183,12 @@ interface PythonKeyboardProps {
             {
               class: styles.defaultKey,
               buttons: "{abc}"  // Add the abc button to use the same styling as the default button
+            },
+            {
+              class: styles.enterKey,
+              buttons: "{enter}"  // Add the abc button to use the same styling as the default button
             }
+            
 
 
 
