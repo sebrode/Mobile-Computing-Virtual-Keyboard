@@ -11,14 +11,14 @@
 }
 
 .punctuationKey {
-  max-width: 30px;
-  width: 30px;
+  max-width: 30px !important;
+  width: 30px !important;
 }
 
 .extraKey {
-  max-width: 40px;
-  width: 40px;
-  min-width: 40px;
+  max-width: 40px !important;
+  width: 40px !important;
+  min-width: 40px !important;
 }
 
 .specialKey {
@@ -27,32 +27,9 @@
   font-weight: bold;
 }
 
-/* Popup container */
-.popup {
-  /* position: absolute; */
-  /* top: -50px;
-  left: 50%; */
-  /* transform: translateX(-50%); */
-  /* background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px;
-  display: flex;
-  gap: 5px;
-  z-index: 1000; */
-}
-
-/* Popup buttons */
-.popupButton {
-  /* background-color: #f0f0f0;
-  border: none;
-  border-radius: 3px;
-  padding: 5px 10px;
-  cursor: pointer; */
-}
-
-.popupButton:hover {
-  /* background-color: #ddd; */
+.capsLockActive :global(.hg-button[data-skbtn="{shift}"]) {
+  background-color: #C0C0C0 !important;
+  color: #000 !important;
 }
 
 .accentPopup {
@@ -65,8 +42,8 @@
   display: flex;
   gap: 4px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  }
-  
+}
+
 .accentButton {
   padding: 8px 10px;
   font-size: 18px;
@@ -75,6 +52,15 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s;
+}
+  
+.accentButton:hover {
+  background: #e0e0e0;
+}
+
+.accentButtonActive {
+  background: #007bff;
+  color: white;
 }
   
 .accentButton:hover {
