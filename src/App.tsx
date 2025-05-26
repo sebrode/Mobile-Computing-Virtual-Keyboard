@@ -10,12 +10,18 @@ import PythonKeyboardNaomi from './Components/Keyboard/Keyboard_naomi';
 import PythonKeyboardGustav from './Components/Keyboard/Keyboard_gustav';
 
 const App: React.FC = () => {
-  const [code, setCode] = useState('// Write your Python here');
+  const [code, setCode] = useState('');
+  const placeholder = '// Write your Python here';
 
   // A small helper to render editor + one keyboard
-  const EditorWith = (Keyboard: React.FC<{value: string; onChange: (v: string) => void;}>) => (
+  const EditorWith = (Keyboard: React.FC<{ value: string; onChange: (v: string) => void }>) => (
     <>
-      <CodeEditor value={code} onChange={v => setCode(v || '')} language="python" />
+      <CodeEditor
+        value={code || placeholder}
+        onChange={(v) => setCode(v || '')}
+        language="python"
+        className={code ? '' : 'placeholder'}
+      />
       <Keyboard value={code} onChange={setCode} />
     </>
   );
@@ -25,28 +31,16 @@ const App: React.FC = () => {
       <main className="App__main">
         <Routes>
           {/* default route: "/" → editor + default keyboard */}
-          <Route
-            path="/"
-            element={EditorWith(PythonKeyboard)}
-          />
+          <Route path="/" element={EditorWith(PythonKeyboard)} />
 
           {/* "/sofus" → editor + Sofus keyboard */}
-          <Route
-            path="/sofus"
-            element={EditorWith(PythonKeyboardSofus)}
-          />
+          <Route path="/sofus" element={EditorWith(PythonKeyboardSofus)} />
 
           {/* "/naomi" → editor + Naomi keyboard */}
-          <Route
-            path="/naomi"
-            element={EditorWith(PythonKeyboardNaomi)}
-          />
+          <Route path="/naomi" element={EditorWith(PythonKeyboardNaomi)} />
 
-          {/* "/gustav" → editor + Naomi keyboard */}
-          <Route
-            path="/gustav"
-            element={EditorWith(PythonKeyboardGustav)}
-          />
+          {/* "/gustav" → editor + Gustav keyboard */}
+          <Route path="/gustav" element={EditorWith(PythonKeyboardGustav)} />
 
           {/* catch-all: redirect unknown paths back to "/" */}
           <Route path="*" element={<Navigate to="/" replace />} />

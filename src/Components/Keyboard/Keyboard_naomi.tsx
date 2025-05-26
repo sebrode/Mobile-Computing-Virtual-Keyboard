@@ -13,15 +13,17 @@ const keywords: string[] = [
 const accentMap: Record<string, string[]> = {
   "(": ["{", "[", "("],
   ")": ["}", "]", ")"],
-  ":": [";", ":"],
+  "*": ["*", "**"],
+  "-": ["-", "_"],
   "=": ["/=", "*=", "-=", "+=", "!=", "="],
-  '"': ["'", '"'],
-  ",": [";",],
-  ".": [":",],
-  d: ['def','d'],
-  f: ['for','f'], 
+  '"': ['"', "'", '"""', "'''"],
+  '/': ["\\t", "\\n", "\\\\", "\\", '/'],
+  ",": [";", ","],
+  ".": [":", "."],
+  d: ['d', 'def'],
+  f: ['f', 'for'], 
   p: ['print','p'], 
-  w: ['while','w']
+  w: ['w', 'while']
 };
 
 const generateAccentButtonThemes = () => {
@@ -31,9 +33,11 @@ const generateAccentButtonThemes = () => {
     const keyClassMap: Record<string, string> = {
       "(": "accentedKey_paren",
       ")": "accentedKey_parenClose", 
-      ":": "accentedKey_colon",
       "=": "accentedKey_equals",
+      "-": "accentedKey_minus",
       "\"": "accentedKey_quote",
+      "*": "accentedKey_mul",
+      "/": "accentedKey_slash",
       ",": "accentedKey_comma",
       ".": "accentedKey_period",
       "d": "accentedKey_d",
@@ -82,9 +86,10 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
   const [selectedAccent, setSelectedAccent] = useState<string | null>(null);
   const [layoutName, setLayoutName] = useState<"default" | "shift" | "extra">("default");
   const [isShiftActive, setIsShiftActive] = useState(false);
-  // useEffect(() => {
-  //   keyboardRef.current?.setOptions({ layoutName: isShiftActive ? "shift" : "default" });
-  // }, [isShiftActive]);
+  const [shiftLocked, setShiftLocked] = useState(false);
+  const lastShiftTapTimeRef = useRef<number>(0);
+  
+
   useEffect(() => {
     keyboardRef.current?.setOptions({ layoutName });
   }, [layoutName]);
@@ -137,6 +142,10 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
 
   const onKeyPress = (button: string) => {
     console.log("Pressed button:", button);
+    if (button.startsWith("{")) {
+      handleControlKey(button); // Handle layout keys immediately
+      return;
+    }
     if (pressedKeysRef.current.has(button)) return;
     pressedKeysRef.current.add(button);
     isHoldingRef.current[button] = true;
@@ -155,23 +164,29 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
       const buttonElement = document.querySelector(`[data-skbtn="${CSS.escape(button)}"]`);
       const container = document.querySelector(".pythonKeyboard__container");
       if (buttonElement && container) {
+  
         const buttonRect = buttonElement.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
 
         const relativeLeft = buttonRect.left - containerRect.left;
         const relativeTop = buttonRect.top - containerRect.top;
         const buttonWidth = buttonRect.width;
-        
-        // Calculate popup dimensions
+        const containerWidth = containerRect.width;
+
         const accentCount = accentMap[button].length;
-        const accentButtonWidth = 40;
+        const accentButtonWidth = 40; // Same as before
         const totalPopupWidth = accentCount * accentButtonWidth;
-        
-        // Position popup so its right edge aligns with the original key's right edge
-        const popupLeft = relativeLeft + buttonWidth - totalPopupWidth;
-        
-        // Position popup above the key
-        const popupTop = relativeTop - 95;
+
+        let popupLeft;
+        if (relativeLeft + buttonWidth / 2 < containerWidth / 2) {
+          // Left side alignment
+          popupLeft = relativeLeft;
+        } else {
+          // Right side alignment
+          popupLeft = relativeLeft + buttonWidth - totalPopupWidth + 10;
+        }
+
+        const popupTop = relativeTop - 95; // as before
 
         setPopupPosition({ left: popupLeft, top: popupTop });
       }
@@ -210,51 +225,49 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
       }
     }
 
+    if (layoutName === "shift" && !shiftLocked && !button.startsWith("{") && button !== "{extra}") {
+      const now = Date.now();
+      const timeSinceLastTap = now - lastShiftTapTimeRef.current;
+
+      if (timeSinceLastTap > 300) {
+        // Not a double-tap → reset shift
+        setLayoutName("default");
+      }
+    }
+
     resetPopupState(button);
   };
  
-  // const handleControlKey = (button: string) => {
-  //   if (button === "{shift}" ) {
-  //     const newLayout = layoutName === "default" ? "shift" : "default";
-  //     setLayoutName(newLayout);
-  //     setIsShiftActive(newLayout === "shift");
-  //     isShiftActive
-  //   } else if (button === "{extra}" && isShiftActive) {
-  //     const newLayout = layoutName === "shift" ? "extra" : "default";
-  //     setLayoutName(newLayout);
-  //   } else if (button === "{extra}" || button === "{default}") {
-  //     const newLayout = layoutName === "default" ? "extra" : "default";
-  //     setLayoutName(newLayout);
-  //   } else if (button === "{enter}") {
-  //     const newVal = value + "\n";
-  //     onChange(newVal);
-  //     keyboardRef.current?.setInput(newVal);
-  //   } else if (button === "{space}") {
-  //     const newVal = value + " ";
-  //     onChange(newVal);
-  //     keyboardRef.current?.setInput(newVal);
-  //   } else if (button === "{bksp}") {
-  //     const newVal = value.slice(0, -1);
-  //     onChange(newVal);
-  //     keyboardRef.current?.setInput(newVal);
-  //   }
-  // };
   const handleControlKey = (button: string) => {
     if (button === "{shift}") {
-      // toggle shift only if currently in default or shift layout
-      if (layoutName === "default") {
+      const now = Date.now();
+      const timeSinceLastTap = now - lastShiftTapTimeRef.current;
+
+      if (timeSinceLastTap < 300) {
+        // Double-tap detected
+        setShiftLocked(true);
         setLayoutName("shift");
         setIsShiftActive(true);
-      } else if (layoutName === "shift") {
-        setLayoutName("default");
-        setIsShiftActive(false);
+      } else {
+        // toggle shift only if currently in default or shift layout
+        if (layoutName === "default") {
+          setLayoutName("shift");
+          setIsShiftActive(true);
+          setShiftLocked(false);
+        } else if (layoutName === "shift") {
+          setLayoutName("default");
+          setIsShiftActive(false);
+          setShiftLocked(false);
+        }
       }
+      lastShiftTapTimeRef.current = now;
       // if layout is extra, do nothing on shift key press
     } else if (button === "{extra}") {
       // from default or shift, switch to extra
       if (layoutName === "default" || layoutName === "shift") {
         setLayoutName("extra");
         setIsShiftActive(false);
+        setShiftLocked(false);
       }
       // if already in extra, do nothing on extra key press
     } else if (button === "{default}") {
@@ -262,19 +275,24 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
       if (layoutName === "extra") {
         setLayoutName("default");
         setIsShiftActive(false);
+        setShiftLocked(false);
       }
     } else if (button === "{enter}") {
-      const newVal = value + "\n";
-      onChange(newVal);
-      keyboardRef.current?.setInput(newVal);
+        const newVal = value + "\n";
+        onChange(newVal);
+        keyboardRef.current?.setInput(newVal);
     } else if (button === "{space}") {
-      const newVal = value + " ";
+        const newVal = value + " ";
+        onChange(newVal);
+        keyboardRef.current?.setInput(newVal);
+    } else if (button === "{tab}") {
+      const newVal = value + "    "; // Insert 4 spaces
       onChange(newVal);
       keyboardRef.current?.setInput(newVal);
     } else if (button === "{bksp}") {
-      const newVal = value.slice(0, -1);
-      onChange(newVal);
-      keyboardRef.current?.setInput(newVal);
+        const newVal = value.slice(0, -1);
+        onChange(newVal);
+        keyboardRef.current?.setInput(newVal);
     }
   };
 
@@ -423,22 +441,22 @@ useEffect(() => {
             ],
             extra: [
               "{tab} 1 2 3 4 5 6 7 8 9 0 {bksp}",
-              "- / : ; ( ) kr & @ \"",
-              "[ ] \\{ \\} # % ^ * + =",
-              "{shift} _ \\ | ~ < > $ . , ? ! ' {bksp}",
-              "{default} {space}"
+              "! ? % & | ^ ~ @ $",
+              "[ ] { } \\ _ : ; '",
+              "{default} if else and or not {enter}",
+              "{space}"
             ]
           }}
           buttonTheme={[
             { class: styles.spaceKey, buttons: "{space}" },
-            { class: styles.extraKey, buttons: "{extra}" },
+            { class: styles.extraKey, buttons: "{extra} {default}" },
             { class: isShiftActive ? styles.activeShiftKey : styles.shiftKey, buttons: "{shift}" },
-            { class: styles.specialKey, buttons: "{bksp} {shift} {enter} {tab} {default}" },
+            { class: styles.specialKey, buttons: "{bksp} {shift} {enter} {tab}" },
             ...generateAccentButtonThemes()
           ]}
           display={{
             "{bksp}": "⌫",
-            "{shift}": "⇧",
+            "{shift}": shiftLocked ? "⇪" : "⇧",
             "{space}": "⎵",
             "{extra}": "123",
             "{enter}": "⏎",

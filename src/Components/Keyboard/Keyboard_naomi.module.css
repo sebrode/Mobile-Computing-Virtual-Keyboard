@@ -82,11 +82,13 @@
 /* Specific indicators for individual keys */
 .accentedKey_paren::after { content: "{"; }
 .accentedKey_parenClose::after { content: "}"; }
-.accentedKey_colon::after { content: ";"; }
 .accentedKey_equals::after { content: "/="; font-size: 9px; }
 .accentedKey_quote::after { content: "'"; }
 .accentedKey_comma::after { content: ";"; }
 .accentedKey_period::after { content: ":"; }
+.accentedKey_slash::after { content: "\\"; }
+.accentedKey_minus::after { content: "_"; }
+.accentedKey_mul::after { content: "**"; }
 .accentedKey_d::after { content: "def"; font-size: 9px; right: 2px; }
 .accentedKey_f::after { content: "for"; font-size: 9px; right: 2px; }
 .accentedKey_p::after { content: "print"; font-size: 8px; right: 1px; }
