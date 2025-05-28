@@ -33,7 +33,7 @@ const App: React.FC = () => {
     <>
       <CodeEditor
         value={code || placeholder}
-        onChange={(v) => setCode(v || '')}
+        onChange={(value) => value && setCode(value)}
         language="python"
         className={code ? '' : 'placeholder'}
       />

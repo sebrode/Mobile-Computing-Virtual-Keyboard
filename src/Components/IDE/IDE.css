@@ -1,0 +1,16 @@
+.custom-cursor {
+    border-left: 2px solid black;
+    margin-left: -1px;
+    animation: blink 2s step-end infinite;
+}
+  
+.cursor-hidden {
+    border-left: 2px solid transparent;
+}
+
+/* Prevent selection on iOS */
+.monaco-editor textarea {
+    caret-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}

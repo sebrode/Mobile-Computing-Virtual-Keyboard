@@ -31,6 +31,8 @@
 }
 
 .capslock {
+  background-color: white !important;
+  color: #000000;
   transform: scaleX(1);
 }
 
@@ -38,13 +40,14 @@
   width: 50px;
 }
 
-.shiftKey span {
+.shiftKey span, .activeShiftKey span {
   font-size: 18px;
   transform: scaleX(2.5);
 }
+
 .bksp span {
   font-size: 30px;
-  transform: scaleX(1.2);
+  transform: scale(1.2);
 }
 
 .pythonKeyboard__container {
