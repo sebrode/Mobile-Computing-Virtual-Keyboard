@@ -3,9 +3,14 @@
   background-color: black !important;
 }
 
+.normalKeys {
+  min-width: 34px !important;
+  width: 34px !important;
+  max-width: 34px !important;
+}
+
 .enterKey {
   background-color: #4CAF50 !important;
-  font-weight: bold;
   max-width: 50px;
   width: 50px;
 }
@@ -21,10 +26,13 @@
   min-width: 40px !important;
 }
 
-.specialKey {
-  background-color: #4CAF50;
-  min-width: 30px;
-  font-weight: bold;
+.shift span {
+  font-size: 18px;
+  transform: scaleX(2.5);
+}
+.bksp span {
+  font-size: 30px;
+  transform: scaleX(1.2);
 }
 
 .capsLockActive :global(.hg-button[data-skbtn="{shift}"]) {

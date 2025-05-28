@@ -121,23 +121,23 @@ interface PythonKeyboardProps {
           layout={{
             default: [
               "! \" # & / ( ) [ ] { } = + *",
-              "q w e r t y u i o p",
-              "{tab} a s d f g h j k l",
-              "{shift} < > z x c v b n m , . {bksp}",
+              "{tab} q w e r t y u i o p",
+              "a s d f g h j k l",
+              "{shift} < z x c v b n m , . {bksp}",
               "{123} {space} {enter}"
             ],
             shift: [
-              "! \" # & / ( ) [ ] { } = +",
-              "Q W E R T Y U I O P" ,
-              "{tab} A S D F G H J K L",
-              "{shift} < > Z X C V B N M ; : {bksp}",
+              "! \" # & / ( ) [ ] { } = + *",
+              "{tab} Q W E R T Y U I O P" ,
+              "A S D F G H J K L",
+              "{shift} > Z X C V B N M ; : {bksp}",
               "{123} {space} {enter}"
             ],
             
             extra: [
               "1 2 3 4 5 6 7 8 9 0",
-              "- / : ; ( ) & \" ' ` ~",
-              "{tab} [ ] \{ \} # % ^ * + =",
+              "{tab} - / : ; ( ) & \" ' ` ~",
+              "[ ] \{ \} # % ^ * + =",
               "{shift} _ \\ | ~ < > $ . , ? ! ' {bksp}",
               "{abc} {space} {enter}"  // Changed from {default} to {abc}
             ]
@@ -187,8 +187,11 @@ interface PythonKeyboardProps {
             {
               class: styles.enterKey,
               buttons: "{enter}"  // Add the abc button to use the same styling as the default button
+            },
+            {
+              class: styles.delKey,
+              buttons: "{bksp}"  // Add the abc button to use the same styling as the default button
             }
-            
 
 
 

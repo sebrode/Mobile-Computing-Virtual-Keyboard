@@ -395,13 +395,13 @@ export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps)
             ],
             extra: [
               "1 2 3 4 5 6 7 8 9 0",
-              "- / : ; ( ) $ & @ ''",
+              '- / : ; ( ) $ & @ "',
               "{#+=} . , ? ! ' {bksp}",
               "{default} {smiley} {space} {enter}"
             ],
             extraExtra: [
               "[ ] { } # % ^ * + =",
-              "_ \ | ~ < > € £ ¥ •",
+              "_ \\ | ~ < > € £ ¥ •",
               "{extra} . , ? ! ' {bksp}",
               "{default} {smiley} {space} {enter}"
             ]
@@ -409,11 +409,15 @@ export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps)
           buttonTheme={[
             {
               class: styles.normalKeys,
-              buttons: 'q w e r t y u i o p a s d f g h j k l z x c v b n m Q W E R T Y U I O P A S D F G H J K L Z X C V B N M 1 2 3 4 5 6 7 8 9 0 - / : ; ( ) $ & @ \'\' [ ] { } # % ^ * + = _ \\ | ~ < > € £ ¥ • . , ? ! \''
+              buttons: 'q w e r t y u i o p a s d f g h j k l z x c v b n m Q W E R T Y U I O P A S D F G H J K L Z X C V B N M 1 2 3 4 5 6 7 8 9 0 - / : ; ( ) $ & @ \'\' [ ] { } # % ^ * + = _ \\ | ~ < > € £ ¥ • '
             },
             {
-              class: styles.specialKey,
-              buttons: '{shift} {bksp} {#+=}'
+              class: styles.shift,
+              buttons: '{shift}'
+            },
+            {
+              class: styles.bksp,
+              buttons: '{bksp}'
             },
             {
               class: styles.enterKey,
@@ -433,7 +437,7 @@ export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps)
             "{#+=}": "#+=",
             "{bksp}": "⌫",
             "{shift}": "⇧",
-            "{space}": "⎵",
+            "{space}": "space",
             "{extra}": "123",
             "{enter}": "return",
             "{default}": "ABC"

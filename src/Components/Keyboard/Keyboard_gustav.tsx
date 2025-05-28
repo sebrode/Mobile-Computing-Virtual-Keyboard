@@ -432,11 +432,15 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
           }}
           buttonTheme={[
             {
-              class: styles.specialKey,
+              class: styles.normalKeys,
+              buttons: 'q w e r t y u i o p a s d f g h j k l z x c v b n m Q W E R T Y U I O P A S D F G H J K L Z X C V B N M 1 2 3 4 5 6 7 8 9 0 - / : ; ( ) $ & @ \'\' [ ] { } # % ^ * + = _ \\ | ~ < > € £ ¥ • '
+            },
+            {
+              class: styles.shift,
               buttons: '{shift}'
             },
             {
-              class: styles.specialKey,
+              class: styles.bksp,
               buttons: "{bksp}"
             },
             {
@@ -457,11 +461,11 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
             }
           ]}
           display={{
-            "{bksp}": "⌫",
+            "{bksp}": '\u{232B}',
             "{shift}": "⇧",
-            "{space}": "⎵",
+            "{space}": "space",
             "{extra}": "123",
-            "{enter}": "⏎",
+            "{enter}": "return",
             "{default}": "ABC"
           }}
         />
