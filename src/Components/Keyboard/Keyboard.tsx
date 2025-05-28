@@ -39,6 +39,8 @@ export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps)
   const [capsLockActive, setCapsLockActive] = useState(false);
   const shiftTimeoutRef = useRef<number>(0);
 
+  const canVibrate = typeof navigator !== "undefined" && "vibrate" in navigator;
+
   useEffect(() => {
     keyboardRef.current?.setOptions({ layoutName });
   }, [layoutName]);
@@ -82,7 +84,12 @@ export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps)
     keyboardRef.current?.setInput(newVal);
   };
 
-  const insertCharacter = (char: string) => {
+  function triggerHaptic(pattern: number = 10) {
+    if (canVibrate) navigator.vibrate(pattern);
+  }
+
+  function insertCharacter(char: string) {
+    triggerHaptic(20);
     console.log("Inserting character:", char);
     const newVal = value + char;
     onChange(newVal);
@@ -90,6 +97,7 @@ export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps)
   };
 
   const handleControlKey = (button: string) => {
+    triggerHaptic(20);
     if (button === "{shift}") {
       const now = Date.now();
       const timeSinceLastTap = now - shiftTimeoutRef.current;
@@ -152,6 +160,7 @@ export default function PythonKeyboard({ value, onChange }: PythonKeyboardProps)
   };
 
   const onKeyPress = (button: string) => {
+    triggerHaptic(20);
     console.log("Pressed button:", button);
 
     if (pressedKeysRef.current.has(button)) return;

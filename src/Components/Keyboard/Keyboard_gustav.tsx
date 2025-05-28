@@ -75,6 +75,8 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
   const [capsLockActive, setCapsLockActive] = useState(false);
   const shiftTimeoutRef = useRef<number>(0);
 
+  const canVibrate = typeof navigator !== "undefined" && "vibrate" in navigator;
+
   useEffect(() => {
     keyboardRef.current?.setOptions({ layoutName });
   }, [layoutName]);
@@ -104,7 +106,12 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
     setSelectedAccent(null);
   };
 
+  function triggerHaptic(pattern: number = 10) {
+    if (canVibrate) navigator.vibrate(pattern);
+  }
+
   const suggestions = useMemo(() => {
+    triggerHaptic(20)
     const token = value.split(/\s+/).pop()?.toLowerCase() || "";
     if (!token) return [];
     return keywords
@@ -113,12 +120,14 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
   }, [value]);
 
   const handleSuggestionClick = (word: string) => {
+    triggerHaptic(20)
     const newVal = value.replace(/\S*$/, word + " ");
     onChange(newVal);
     keyboardRef.current?.setInput(newVal);
   };
 
   const insertCharacter = (char: string) => {
+    triggerHaptic(20)
     console.log("Inserting character:", char);
     const newVal = value + char;
     onChange(newVal);
@@ -126,6 +135,7 @@ export default function PythonKeyboardGustav({ value, onChange }: PythonKeyboard
   };
 
   const handleControlKey = (button: string) => {
+    triggerHaptic(20)
     if (button === "{shift}") {
       const now = Date.now();
       const timeSinceLastTap = now - shiftTimeoutRef.current;

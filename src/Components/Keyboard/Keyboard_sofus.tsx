@@ -23,6 +23,8 @@ interface PythonKeyboardProps {
   const [currentLayout, setCurrentLayout] = useState("default");
   // Add state to track if shift is temporary (one character only)
   const [isTemporaryShift, setIsTemporaryShift] = useState(false);
+
+  const canVibrate = typeof navigator !== "undefined" && "vibrate" in navigator;
   
     const suggestions = useMemo(() => {
       const token = value.split(/\s+/).pop()?.toLowerCase() || "";
@@ -31,14 +33,20 @@ interface PythonKeyboardProps {
         .filter(k => k.toLowerCase().startsWith(token))
         .slice(0, 8);
     }, [value]);
+
+    function triggerHaptic(pattern: number = 10) {
+      if (canVibrate) navigator.vibrate(pattern);
+    }
   
     const handleSuggestionClick = (word: string) => {
+      triggerHaptic(20);
       const newVal = value.replace(/\S*$/, word + " ");
       onChange(newVal);
       keyboardRef.current?.setInput(newVal);
     };
   
     const onKeyPress = (button: string) => {
+      triggerHaptic(20);
       // Handle shift button
       if (button === "{shift}" || button === "{lock}") {
         const newLayout = currentLayout === "default" ? "shift" : "default";
