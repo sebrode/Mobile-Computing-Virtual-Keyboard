@@ -1,0 +1,112 @@
+/* Your existing CSS is great! Just modify/add these classes: */
+
+.spaceKey {
+    width: 60%;
+}
+
+.letters {
+  min-width: 34px !important;
+  width: 34px !important;
+  max-width: 34px !important;
+}
+
+.extraKey { 
+  width: 30px;
+  background-color: #D0D3DC !important;
+}
+
+.specialKey {
+  background-color: #D0D3DC !important;
+}
+
+.shiftKey {
+  /* Base shift button styles */
+  background-color: #D0D3DC !important;
+  color: #000000;
+}
+
+.activeShiftKey {
+  background-color: white !important;
+  color: #000000;
+}
+
+.specialKey {
+  width: 50px;
+}
+
+.shift span {
+  font-size: 18px;
+  transform: scaleX(2.5);
+}
+.bksp span {
+  font-size: 30px;
+  transform: scaleX(1.2);
+}
+
+.pythonKeyboard__container {
+  position: relative;
+} 
+
+.accentPopup {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 8px;
+  z-index: 1000;
+  display: flex;
+  gap: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.accentButton {
+  background: white;
+  color: black;
+  border: 1px solid gray;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 15px;
+}
+
+.accentButtonActive {
+  background: #007bff;
+  color: white;
+}
+  
+.accentButton:hover {
+  background: #e0e0e0;
+}
+
+/* Update your existing accentedKey class to work without data-accent */
+.accentedKey {
+  position: relative;
+}
+
+/* Generic indicator for all accented keys */
+.accentedKey::after {
+  content: "⋯";
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  font-size: 10px;
+  color: #555;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Specific indicators for individual keys */
+.accentedKey_paren::after { content: "{"; }
+.accentedKey_parenClose::after { content: "}"; }
+.accentedKey_equals::after { content: "/="; font-size: 9px; }
+.accentedKey_quote::after { content: "'"; }
+.accentedKey_comma::after { content: ";"; }
+.accentedKey_period::after { content: ":"; }
+.accentedKey_slash::after { content: "\\"; }
+.accentedKey_minus::after { content: "_"; }
+.accentedKey_lessthan::after { content: ">"; }
+.accentedKey_mul::after { content: "**"; }
+.accentedKey_d::after { content: "def"; font-size: 9px; right: 2px; }
+.accentedKey_f::after { content: "for"; font-size: 9px; right: 2px; }
+.accentedKey_p::after { content: "print"; font-size: 8px; right: 1px; }
+.accentedKey_w::after { content: "while"; font-size: 8px; right: 1px; }
+.accentedKey_r::after { content: "range"; font-size: 8px; right: 1px; }

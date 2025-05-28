@@ -8,6 +8,7 @@ import PythonKeyboard from './Components/Keyboard/Keyboard';
 import PythonKeyboardSofus from './Components/Keyboard/Keyboard_sofus';
 import PythonKeyboardNaomi from './Components/Keyboard/Keyboard_naomi';
 import PythonKeyboardGustav from './Components/Keyboard/Keyboard_gustav';
+import PythonKeyboardUltimate from './Components/Keyboard/Keyboard_ultimate';
 
 const App: React.FC = () => {
   const [code, setCode] = useState('');
@@ -20,7 +21,8 @@ const App: React.FC = () => {
       '/': 'Default Python Keyboard',
       '/sofus': 'Sofus Keyboard',
       '/naomi': 'Naomi Keyboard',
-      '/gustav': 'Gustav Keyboard'
+      '/gustav': 'Gustav Keyboard',
+      '/ultimate': 'Ultimate Keyboard'
     };
 
     document.title = routeTitles[location.pathname as keyof typeof routeTitles] || 'Python Editor';
@@ -54,6 +56,9 @@ const App: React.FC = () => {
 
           {/* "/gustav" → editor + Gustav keyboard */}
           <Route path="/gustav" element={EditorWith(PythonKeyboardGustav)} />
+
+          {/* "/ultimate" → editor + Ultimate keyboard */}
+          <Route path="/ultimate" element={EditorWith(PythonKeyboardUltimate)} />
 
           {/* catch-all: redirect unknown paths back to "/" */}
           <Route path="*" element={<Navigate to="/" replace />} />
