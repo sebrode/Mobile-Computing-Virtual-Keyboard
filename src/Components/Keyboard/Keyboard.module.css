@@ -4,6 +4,11 @@
   align-content: center !important;
 }
 
+:global(.hg-row) {
+  display: flex !important;
+  justify-content: center !important;
+}
+
 .normalKeys {
   min-width: 34px !important;
   width: 34px !important;

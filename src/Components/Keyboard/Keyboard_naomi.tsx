@@ -90,6 +90,8 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
   const [isShiftActive, setIsShiftActive] = useState(false);
   const [shiftLocked, setShiftLocked] = useState(false);
   const lastShiftTapTimeRef = useRef<number>(0);
+
+  const canVibrate = typeof navigator !== "undefined" && "vibrate" in navigator;
   
 
   useEffect(() => {
@@ -129,13 +131,19 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
       .slice(0, 8);
   }, [value]);
 
+  function triggerHaptic(pattern: number = 10) {
+    if (canVibrate) navigator.vibrate(pattern);
+  }
+
   const handleSuggestionClick = (word: string) => {
+    triggerHaptic(20)
     const newVal = value.replace(/\S*$/, word + " ");
     onChange(newVal);
     keyboardRef.current?.setInput(newVal);
   };
 
   const insertCharacter = (char: string) => {
+    triggerHaptic(20)
     console.log("Inserting character:", char);
     const newVal = value + char;
     onChange(newVal);
@@ -241,6 +249,7 @@ export default function PythonKeyboardNaomi({ value, onChange }: PythonKeyboardP
   };
  
   const handleControlKey = (button: string) => {
+    triggerHaptic(20)
     if (button === "{shift}") {
       const now = Date.now();
       const timeSinceLastTap = now - lastShiftTapTimeRef.current;
