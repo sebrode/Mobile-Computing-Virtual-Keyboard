@@ -462,7 +462,7 @@ useEffect(() => {
             { class: isShiftActive ? styles.activeShiftKey : styles.shiftKey, buttons: "{shift}" },
             { class: styles.specialKey, buttons: "{bksp} {shift} {enter} {tab}" },
             { class: styles.bksp, buttons: "{bksp}" },
-            { class: styles.shift, buttons: "{shift}" },
+            { class: shiftLocked ? styles.capslock : styles.shiftKey, buttons: "{shift}" },
             ...generateAccentButtonThemes()
           ]}
           display={{

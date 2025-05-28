@@ -30,11 +30,15 @@
   color: #000000;
 }
 
+.capslock {
+  transform: scaleX(1);
+}
+
 .specialKey {
   width: 50px;
 }
 
-.shift span {
+.shiftKey span {
   font-size: 18px;
   transform: scaleX(2.5);
 }
